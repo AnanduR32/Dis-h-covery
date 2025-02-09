@@ -5,7 +5,7 @@ import Home from './Components/Home/home'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <div className='p-2 h-screen'>
+    <div className='p-2 h-screen  bg-blue-200'>
       <Home />
     </div>
   </StrictMode>,

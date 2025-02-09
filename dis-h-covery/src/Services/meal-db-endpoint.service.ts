@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from "../Shared/Constants";
 
-export const fetchMealsBySearch = async (query: string) => {
+export const fetchMealsByName = async (query: string) => {
   const response = await fetch(`${API_ENDPOINTS.SEARCH}${query}`);
   return response.json();
 };
@@ -15,3 +15,7 @@ export const fetchCuisines = async () => {
   return response.json();
 };
 
+export const fetchMealsByArea = async (query: string) => {
+  const response = await fetch(`${API_ENDPOINTS.FILTER_BY_AREA}${query}`);
+  return response.json();
+};

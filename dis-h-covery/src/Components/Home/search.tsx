@@ -1,22 +1,19 @@
-import { useState, useEffect  } from "react";
-import { fetchCuisines } from "../../Services/meal-db-endpoint.service";
+import { useState } from "react";
 
-function SearchBar() {
+interface SearchBarProps {
+    cuisines: string[],
+    onSelected: (cuisine:string) => void,
+}
+
+function SearchBar(input: SearchBarProps) {
     const [query, setQuery] = useState("");
     const [selectedCuisine, setSelectedCuisines] = useState("All");
-    const [categories, setCategories] = useState<string[]>(["All"]);
+    const allCuisines = input.cuisines;
 
-
-    useEffect(() => {
-        const loadCuisines = async () => {
-            const response = await fetchCuisines();
-            const fetchedCuisines = response.meals.map((meal: { strArea: any; }) => meal.strArea);
-            console.log(fetchedCuisines)
-            setCategories(["All", ...fetchedCuisines]);
-            };
-        
-            loadCuisines();
-      }, []);
+    const CuisineOnSelected = (value: string) => {
+        setSelectedCuisines(value);
+        input.onSelected(value);
+      };
 
     return (
         <>
@@ -24,10 +21,10 @@ function SearchBar() {
                 {/* Dropdown on the Left */}
                 <select className="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
                     value={selectedCuisine}
-                    onChange={(e) => setSelectedCuisines(e.target.value)}>
-                    {categories.map((cuisine) => (
-                        <option key={cuisine} value={cuisine}>
-                            {cuisine}
+                    onChange={(e) => CuisineOnSelected(e.target.value)}>
+                    {allCuisines.map((value) => (
+                        <option key={value} value={value}>
+                            {value}
                         </option>
                     ))}
                 </select>
@@ -42,7 +39,7 @@ function SearchBar() {
                 />
 
                 {/* Search Button */}
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700">
+                <button className="px-4 py-2 bg-blue-200 text-white rounded-r-md hover:bg-blue-300">
                     🔍
                 </button>
             </div>
