@@ -1,9 +1,5 @@
 import { useState } from "react";
-
-interface SearchBarProps {
-    cuisines: string[],
-    onSelected: (cuisine:string) => void,
-}
+import { SearchBarProps } from "../../Shared/Models/Contracts/search-bar-props";
 
 function SearchBar(input: SearchBarProps) {
     const [query, setQuery] = useState("");
@@ -13,7 +9,12 @@ function SearchBar(input: SearchBarProps) {
     const CuisineOnSelected = (value: string) => {
         setSelectedCuisines(value);
         input.onSelected(value);
-      };
+    };
+
+    const OnValueUpdate = (value: string) => {
+        setQuery(value);
+        input.onValueUpdated(value);
+    }
 
     return (
         <>
@@ -33,15 +34,10 @@ function SearchBar(input: SearchBarProps) {
                 <input
                     type="text"
                     placeholder="Search meals..."
-                    className="flex-1 px-4 py-2 border-t border-b border-gray-300 focus:outline-none"
+                    className="flex-1 px-4 py-2 border-t border-b border-r border-gray-300 focus:outline-none"
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => OnValueUpdate(e.target.value)}
                 />
-
-                {/* Search Button */}
-                <button className="px-4 py-2 bg-blue-200 text-white rounded-r-md hover:bg-blue-300">
-                    🔍
-                </button>
             </div>
         </>
     )
