@@ -9,3 +9,9 @@ export const fetchMealById = async (id: string) => {
   const response = await fetch(`${API_ENDPOINTS.LOOKUP}${id}`);
   return response.json();
 };
+
+export const fetchCuisines = async () => {
+  const response = await fetch(`${API_ENDPOINTS.LIST_AREAS}`);
+  return response.json();
+};
+
