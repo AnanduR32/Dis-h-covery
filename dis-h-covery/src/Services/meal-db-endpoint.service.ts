@@ -6,7 +6,7 @@ export const fetchMealsByName = async (query: string): Promise<ApiResponseMeal> 
   return response.json();
 };
 
-export const fetchMealById = async (id: string) => {
+export const fetchMealById = async (id: number): Promise<ApiResponseMeal> => {
   const response = await fetch(`${API_ENDPOINTS.LOOKUP}${id}`);
   return response.json();
 };

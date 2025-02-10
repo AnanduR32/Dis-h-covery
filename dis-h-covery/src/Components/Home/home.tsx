@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchCuisines, fetchMealsByArea, fetchMealsByName } from "../../Services/meal-db-endpoint.service";
+import { ApiResponseMeal } from "../../Shared/Models/Contracts/api-response";
 import Card from "./card";
 import SearchBar from "./search";
-import { ApiResponseMeal } from "../../Shared/Models/Contracts/api-response";
 
 function Home() {
   const defaultQuery: string = "";
   const defaultArea: string = "All"
-
+  const nonSelected: number = -1;
   const [cuisines, setCuisines] = useState<string[]>([defaultArea]);
   const [data, setMeals] = useState<ApiResponseMeal | null>();
 
@@ -15,6 +15,8 @@ function Home() {
   const currentQueryRef = useRef(defaultQuery);
   const previousAreaRef = useRef(defaultArea);
   const currentAreaRef = useRef(defaultArea);
+
+  const [selectedId, setSelectedId] = useState(nonSelected);
 
   const queryChanged = (): number => {
     if (currentQueryRef.current !== previousQueryRef.current && currentQueryRef.current !== defaultQuery) {
@@ -82,10 +84,10 @@ function Home() {
       newMealsList = await fetchMealsByName('a');
     }
 
-    if (newMealsList.meals !== null){
+    if (newMealsList.meals !== null) {
       setMeals(newMealsList);
     }
-    else{
+    else {
       setMeals(null)
     }
   }
@@ -105,16 +107,29 @@ function Home() {
     loadAllMeals();
   }, []);
 
+  const onCardSelected = (id: number) => {
+    setSelectedId(id);
+  }
+
 
   return (
     <>
       <div className="w-1/2 mx-auto">
-        <SearchBar cuisines={cuisines} onSelected={handleCuisineSelection} onValueUpdated={handleValueUpdated} />
+        {
+          selectedId === nonSelected ?
+            (
+              <SearchBar cuisines={cuisines} onSelected={handleCuisineSelection} onValueUpdated={handleValueUpdated} />
+
+            ) :
+            (
+              <div></div>
+            )
+        }
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 p-6">
+      <div className={`grid grid-cols-1 gap-4 p-6 max-h-[calc(100vh-8rem)] ${selectedId === nonSelected ? "overflow-y-auto  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6" : ""}`}>
         {data != null ? (
           data.meals.map((meal) => (
-            <Card key={meal.idMeal} name={meal.strMeal} img={meal.strMealThumb} id={meal.idMeal} />
+            <Card key={meal.idMeal} name={meal.strMeal} img={meal.strMealThumb} id={Number(meal.idMeal)} selectedId={selectedId} onSelected={onCardSelected} />
           ))
         ) : (
           <div className="col-span-full text-center text-gray-500">Loading...</div>

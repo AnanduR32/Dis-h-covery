@@ -1,5 +1,5 @@
 export interface mealData {
-  idMeal: number;
+  idMeal: string;
   strMeal: string;
   strCategory: string;
   strArea: string;
@@ -51,5 +51,5 @@ export interface mealData {
   strSource: string;
   strImageSource: string | null;
   strCreativeCommonsConfirmed: string | null;
-  dateModified: Date | null
+  dateModified: string | null
 }

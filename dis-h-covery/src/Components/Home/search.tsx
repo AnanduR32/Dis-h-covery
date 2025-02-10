@@ -18,7 +18,7 @@ function SearchBar(input: SearchBarProps) {
 
     return (
         <>
-            <div className="flex items-center w-full bg-white shadow-md p-3 rounded-lg">
+            <div className="flex items-center w-full bg-blue-200 shadow-md p-3 rounded-lg">
                 {/* Dropdown on the Left */}
                 <select className="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
                     value={selectedCuisine}
