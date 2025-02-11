@@ -17,6 +17,7 @@ export class MealDetails{
     ingredientDict: IngredientsData;
     source: string;
     imgSource: string | null;
+    steps: string[] = [];
 
     
     public constructor(data: mealData){
@@ -32,6 +33,7 @@ export class MealDetails{
         this.source = data.strSource;
         this.imgSource = data.strImageSource;
         this.ingredientDict = this.ParseIngredientsData(data);
+        this.ParseSteps();
     }
 
     private ParseIngredientsData = (data: mealData): IngredientsData => {
@@ -46,5 +48,14 @@ export class MealDetails{
             }
         }
 
-        return dict;    }
+        return dict;    
+    }
+
+    private ParseSteps = (): void => {
+        this.steps = this.instructions
+            .split(/\.\s+/)
+            .map(x => x.trim())
+            .filter(x => x && x.length > 2 && !/^\d+\.$/.test(x))
+            .map(x => x.endsWith('.') ? x : x + '.');
+    }
 }

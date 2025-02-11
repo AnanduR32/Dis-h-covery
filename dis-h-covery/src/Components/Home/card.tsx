@@ -50,12 +50,19 @@ function Card(cardProp: CardProps) {
                             <div className="font-bold">{cardDetails?.name}</div>
                             <div><span className="font-bold">Ingredients:</span>
                                 {
-                                    Object.entries(cardDetails?.ingredientDict || {}).map(([key, value]) => (
-                                        <div key={key}>{key}: {value}</div>
+                                    Object.entries(cardDetails?.ingredientDict || {}).map(([key, value],index) => (
+                                        <div key={key}><span>{index+1}. {key}: {value}</span></div>
                                     ))
                                 }
                             </div>
-                            <div><span className="font-bold">Recipe:</span>{cardDetails?.instructions}</div>
+                            <div>
+                                <span className="font-bold">Recipe:</span>
+                                {
+                                    cardDetails?.steps.map((step, index) => (
+                                        <div key={index}><span>{index + 1}. {step}</span></div>
+                                    ))
+                                }
+                            </div>
                         </div>
                     )
             }
